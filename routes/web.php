@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +17,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+Route::group(['prefix' => 'post','middleware' => 'auth'],function(){
+    Route::get('create',[PostController::class,'create'])->name('post.create');
+    Route::post('store',[PostController::class,'store'])->name('post.store');
 });
 
 Auth::routes();
