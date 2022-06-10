@@ -21,6 +21,10 @@ Route::get('/', function () {
 Route::group(['prefix' => 'post','middleware' => 'auth'],function(){
     Route::get('create',[PostController::class,'create'])->name('post.create');
     Route::post('store',[PostController::class,'store'])->name('post.store');
+    Route::get('show/{post}',[PostController::class,'show'])->name('post.show');
+    Route::get('edit/{post}',[PostController::class,'edit'])->name('post.edit');
+    Route::post('update/{post}',[PostController::class,'update'])->name('post.update');
+    Route::post('destroy/{post}',[PostController::class,'destroy'])->name('post.destroy');
 });
 
 Auth::routes();

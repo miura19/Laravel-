@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Http\Requests\storePost;
 
 class PostController extends Controller
 {
@@ -33,14 +34,22 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(storePost $request)
     {
         $post = new Post();
         $post->title = $request->input('title');
         $post->body = $request->input('body');
         $post->user_id = auth()->user()->id;
+
+        if (request('image') !== null){
+            $original =  request()->file('image')->getClientOriginalName();
+            //日時追加
+            $img_name = date('Ymd_His'). "_" . $original;
+            request()->file('image')->storeAs('public/images',$img_name);
+            $post->image = $img_name;
+        }
         $post->save();
-        return back()->with([
+        return redirect()->route('home')->with([
             'store_success' => '投稿が成功したよっっ！///'
         ]);
     }
@@ -51,9 +60,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Post $post)
     {
-        //
+        return view('post.show',compact('post'));
     }
 
     /**
@@ -62,9 +71,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        //
+        return view('post.edit',compact('post'));
     }
 
     /**
@@ -74,9 +83,22 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(storePost $request, Post $post)
     {
-        //
+        $post->title = $request->input('title');
+        $post->body = $request->input('body');
+
+        if (request('image') !== null){
+            $original =  request()->file('image')->getClientOriginalName();
+            //日時追加
+            $img_name = date('Ymd_His'). "_" . $original;
+            request()->file('image')->storeAs('public/images',$img_name);
+            $post->image = $img_name;
+        }
+        $post->save();
+        return back()->with([
+            'update_success' => '編集が成功したよっっ！///'
+        ]);
     }
 
     /**
@@ -85,8 +107,11 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        return redirect()->route('home')->with([
+            'deleted_success' => '削除が成功したよっっ！///'
+        ]);
     }
 }
