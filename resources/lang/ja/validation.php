@@ -121,6 +121,7 @@ return [
         "email" => "メールアドレス",
         "title" => "件名",
         "body" => "本文",
-        "image" => "画像"
+        "image" => "画像",
+        "comment" => "コメント",
     ],
 ];

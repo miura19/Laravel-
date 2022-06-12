@@ -31,4 +31,48 @@
     </div>
 </div>
 
+<hr>
+@foreach ($post->comments as $comment)
+<div class="card mb-4">
+    
+    <div class="card-header">
+        {{$comment->user->name}}
+    </div>
+    <div class="card-body">
+        {{$comment->body}}
+    </div>
+    <div class="card-footer">
+        <span class="mr-2 float-right">
+            投稿日時 {{$comment->created_at->diffForHumans()}}
+        </span>
+    </div>
+</div>
+@endforeach
+
+@if ($errors->has('comment')) 
+    <div class="alert alert-danger mt-3">
+        {{ $errors->first('comment') }}
+    </div>
+@endif
+{{-- コメント投稿用フォーム --}}
+<div class="card mb-4">
+    <form method="post" action="{{route('comment.store')}}">
+        @csrf
+        <input type="hidden" name='post_id' value="{{$post->id}}">
+        <div class="form-group">
+            <textarea name="comment" class="form-control" id="comment" cols="30" rows="5" 
+            placeholder="コメントを入力する">{{old('comment')}}</textarea>
+        </div>
+        <div class="form-group">
+        <button class="btn btn-success float-right mb-3 mr-3 mt-3">コメントする</button>
+        </div>
+    </form>
+</div>  
+<script>
+    @if (session('store_comment_success'))
+        $(function () {
+            toastr.success('{{ session('store_comment_success') }}');
+        });
+    @endif
+</script>
 @endsection
