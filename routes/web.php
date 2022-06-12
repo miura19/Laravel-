@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\HomeController;
 
 
 /*
@@ -28,8 +29,10 @@ Route::group(['prefix' => 'post','middleware' => 'auth'],function(){
     Route::post('destroy/{post}',[PostController::class,'destroy'])->name('post.destroy');
 
     Route::post('comment/store',[CommentController::class,'store'])->name('comment.store');
+    Route::get('/mypost',[HomeController::class,'mypost'])->name('home.mypost');
+    Route::get('/mycomment',[HomeController::class,'mycomment'])->name('home.mycomment');
 });
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');

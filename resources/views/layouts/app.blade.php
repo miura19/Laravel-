@@ -46,13 +46,13 @@
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                    <a class="nav-link" href="{{ route('login') }}">{{ __('ログインっっ！///') }}</a>
                                 </li>
                             @endif
 
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('登録っっ！///') }}</a>
                                 </li>
                             @endif
                         @else
@@ -65,7 +65,7 @@
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                        {{ __('ログアウトっっ！///') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -80,17 +80,43 @@
         </nav>
 
         <main class="py-4">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12 col-md-4 col-lg-3">
-                    @include('layouts.sidebar')
-                    </div>
-                    <div class="col-12 col-md-8  col-lg-9">                 
-                    @yield('content')
+            @if(Auth::check())
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-md-4 col-lg-3">
+                        @include('layouts.sidebar')
+                        </div>
+                        <div class="col-12 col-md-8  col-lg-9">                 
+                        @yield('content')
+                        </div>
                     </div>
                 </div>
-            </div>
+            @else
+                @yield('content')
+            @endif    
         </main>
     </div>
+    <script>
+        @if (session('deleted_success'))
+            $(function () {
+                toastr.success('{{ session('deleted_success') }}');
+            });
+        @endif
+        @if (session('store_success'))
+            $(function () {
+                toastr.success('{{ session('store_success') }}');
+            });
+        @endif
+        @if (session('store_comment_success'))
+        $(function () {
+            toastr.success('{{ session('store_comment_success') }}');
+        });
+        @endif
+        @if (session('update_success'))
+        $(function () {
+            toastr.success('{{ session('update_success') }}');
+        });
+        @endif
+    </script>
 </body>
 </html>

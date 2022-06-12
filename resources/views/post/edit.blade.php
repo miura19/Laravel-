@@ -4,11 +4,6 @@
 <div class="row">
     <div class="col-md-10 mt-6">
         <div class="card-body">
-            {{-- @if (session('store_success'))
-                <div class="alert alert-success">
-                    {{ session('store_success') }}
-                </div>
-            @endif --}}
             <h1 class="mt4">編集するよっっ！///</h1>
             <form method="post" action="{{ route('post.update',$post) }}" enctype="multipart/form-data">
                 @csrf
@@ -55,11 +50,4 @@
         </div>
     </div>
 </div>
-<script>
-    @if (session('update_success'))
-        $(function () {
-            toastr.success('{{ session('update_success') }}');
-        });
-    @endif
-</script>
 @endsection

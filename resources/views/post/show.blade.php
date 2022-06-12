@@ -68,11 +68,4 @@
         </div>
     </form>
 </div>  
-<script>
-    @if (session('store_comment_success'))
-        $(function () {
-            toastr.success('{{ session('store_comment_success') }}');
-        });
-    @endif
-</script>
 @endsection
