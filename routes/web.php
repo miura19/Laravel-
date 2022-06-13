@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ContactController;
 
 
 /*
@@ -31,6 +32,11 @@ Route::group(['prefix' => 'post','middleware' => 'auth'],function(){
     Route::post('comment/store',[CommentController::class,'store'])->name('comment.store');
     Route::get('/mypost',[HomeController::class,'mypost'])->name('home.mypost');
     Route::get('/mycomment',[HomeController::class,'mycomment'])->name('home.mycomment');
+});
+
+Route::group(['prefix' => 'contact'],function(){
+    Route::get('create',[ContactController::class,'create'])->name('contact.create');
+    Route::post('store',[ContactController::class,'store'])->name('contact.store');
 });
 
 Auth::routes();
