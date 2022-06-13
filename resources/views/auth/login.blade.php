@@ -2,6 +2,15 @@
 
 @section('content')
 <div class="container">
+    <div class="jumbotron text-gray  d-flex align-items-center mb-5">
+        <div class="col-12 col-md-8 col-lg-6 mx-auto">
+            <h1 class="mb-3">学習フォーラムサイト</h1>
+            <p>ご利用には、会員登録が必要となります。詳しくは下記までお問い合わせください。</p> 
+            <a href="{{route('contact.create')}}">
+                <button class="btn btn-info text-white">お問い合わせ</button>
+            </a>
+        </div>
+    </div>
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">

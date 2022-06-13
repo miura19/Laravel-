@@ -18,9 +18,9 @@ use App\Http\Controllers\ContactController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 Route::group(['prefix' => 'post','middleware' => 'auth'],function(){
     Route::get('create',[PostController::class,'create'])->name('post.create');
     Route::post('store',[PostController::class,'store'])->name('post.store');
@@ -40,5 +40,7 @@ Route::group(['prefix' => 'contact'],function(){
 });
 
 Auth::routes();
-
+Route::get('/',function(){
+    return view('auth.login');
+});
 Route::get('/home', [HomeController::class, 'index'])->name('home');
