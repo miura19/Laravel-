@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Http\Requests\storePost;
+// use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
@@ -25,6 +26,8 @@ class PostController extends Controller
      */
     public function create()
     {
+        //下記でadminだけcreateメソッドを実行できるように制限する
+        // Gate::authorize('admin');
         return view('post.create');
     }
 
@@ -73,6 +76,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        $this->authorize('update',$post);
         return view('post.edit',compact('post'));
     }
 
@@ -85,6 +89,7 @@ class PostController extends Controller
      */
     public function update(storePost $request, Post $post)
     {
+        $this->authorize('update',$post);
         $post->title = $request->input('title');
         $post->body = $request->input('body');
 
@@ -109,6 +114,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        $this->authorize('delete',$post);
         $post->comments()->delete();
         $post->delete();
         return redirect()->route('home')->with([

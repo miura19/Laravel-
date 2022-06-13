@@ -14,6 +14,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        App\Models\Post::class => App\Policies\PostPolicy::class,
     ];
 
     /**
@@ -24,7 +25,14 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        //
+        Gate::define('admin',function($user){
+            foreach($user->roles as $role){
+                if ($role->name === 'admin'){
+                    return true;
+                }
+            }
+            //adminが定義されていない
+            return false;
+        });
     }
 }

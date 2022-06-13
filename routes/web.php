@@ -5,6 +5,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ProfileController;
 
 
 /*
@@ -34,9 +35,16 @@ Route::group(['prefix' => 'post','middleware' => 'auth'],function(){
     Route::get('/mycomment',[HomeController::class,'mycomment'])->name('home.mycomment');
 });
 
-Route::group(['prefix' => 'contact'],function(){
+Route::group(['prefix' => 'contact','middleware' => 'guest'],function(){
     Route::get('create',[ContactController::class,'create'])->name('contact.create');
     Route::post('store',[ContactController::class,'store'])->name('contact.store');
+});
+
+// 管理者用画面
+Route::middleware(['can:admin'])->group(function(){
+    Route::group(['prefix' => 'profile'],function(){
+        Route::get('/index',[ProfileController::class,'index'])->name('profile.index');
+    });
 });
 
 Auth::routes();
