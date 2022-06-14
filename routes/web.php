@@ -6,6 +6,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RoleController;
 use PhpParser\Node\Expr\AssignOp\Pow;
 
 /*
@@ -60,6 +61,11 @@ Route::group(['prefix' => 'post','middleware' => 'verified'],function(){
 Route::middleware(['can:admin'])->group(function(){
     Route::group(['prefix' => 'profile'],function(){
         Route::get('/index',[ProfileController::class,'index'])->name('profile.index');
+        Route::delete('/delete/{user}', [ProfileController::class,'delete'])->name('profile.delete');
+    });
+    Route::group(['prefix' => 'roles'],function(){
+        Route::put('/{user}/attach', [RoleController::class,'attach'])->name('role.attach');
+        Route::put('/{user}/detach', [RoleController::class,'detach'])->name('role.detach');
     });
 });
 

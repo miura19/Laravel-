@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Role;
 
 class ProfileController extends Controller
 {
@@ -19,7 +20,8 @@ class ProfileController extends Controller
     public function edit(User $user)
     {
         $this->authorize('update',$user);
-        return view('profile.edit',compact('user'));
+        $roles = Role::all();
+        return view('profile.edit',compact('user','roles'));
     }
 
     public function update(User $user, Request $request){
@@ -50,5 +52,14 @@ class ProfileController extends Controller
         }
         $user->update($inputs);
         return back()->with('update_success', '編集が成功したよっっ！///');
+    }
+
+    public function delete(User $user)
+    {
+        Storage::delete('public/avatar/'.$user->avatar);
+        $user->delete();
+        return back()->with([
+            'deleted_success' => '削除が成功したよっっ！///'
+        ]);
     }
 }
