@@ -16,4 +16,7 @@
         <i class="fas fa-pen-nib pr-2"></i><span>ユーザーアカウント</span>
     </a>
     @endcan
+    <a href="{{route('profile.edit',auth()->user()->id)}}" class='list-group-item {{ url()->current()==route('profile.edit',auth()->user()->id) ? 'active' : ""}}'>
+        <i class="fas fa-pen-nib pr-2"></i><span>プロフィール編集</span>
+    </a>
 </div>

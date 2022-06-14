@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Http\Requests\storePost;
+use Illuminate\Support\Facades\Storage;
+
 // use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
@@ -116,6 +118,10 @@ class PostController extends Controller
     {
         $this->authorize('delete',$post);
         $post->comments()->delete();
+        if ($post['image'] != null) {
+            $oldimage='public/images/'.$post['image'];
+            Storage::delete($oldimage);
+        }
         $post->delete();
         return redirect()->route('home')->with([
             'deleted_success' => '削除が成功したよっっ！///'

@@ -123,5 +123,8 @@ return [
         "body" => "本文",
         "image" => "画像",
         "comment" => "コメント",
+        "name" => "お名前",
+        "avatar" => "アバター",
+        "password_confirmation" => "パスワード再入力",
     ],
 ];

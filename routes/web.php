@@ -6,7 +6,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
-
+use PhpParser\Node\Expr\AssignOp\Pow;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +25,7 @@ use App\Http\Controllers\ProfileController;
 //メール認証
 Auth::routes(['verify' => true]);
 // Auth::routes();
-
+//ログイン画面
 Route::get('/',function(){
     return view('auth.login');
 });
@@ -36,25 +36,13 @@ Route::group(['prefix' => 'contact','middleware' => 'guest'],function(){
     Route::post('store',[ContactController::class,'store'])->name('contact.store');
 });
 
-// Route::middleware(['verified'])->group(function(){
-//     Route::get('create',[PostController::class,'create'])->name('post.create');
-//     Route::post('store',[PostController::class,'store'])->name('post.store');
-//     Route::get('show/{post}',[PostController::class,'show'])->name('post.show');
-//     Route::get('edit/{post}',[PostController::class,'edit'])->name('post.edit');
-//     Route::post('update/{post}',[PostController::class,'update'])->name('post.update');
-//     Route::post('destroy/{post}',[PostController::class,'destroy'])->name('post.destroy');
-
-//     Route::post('comment/store',[CommentController::class,'store'])->name('comment.store');
-//     Route::get('/mypost',[HomeController::class,'mypost'])->name('home.mypost');
-//     Route::get('/mycomment',[HomeController::class,'mycomment'])->name('home.mycomment');
-// });
-// Route::group(['prefix' => 'post','middleware' => 'verified'],function(){
-    
-// });
-
 Route::middleware(['verified'])->group(function(){
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+    //プロフィール編集
+    Route::get('profile/{user}/edit',[ProfileController::class,'edit'])->name('profile.edit');
+    Route::post('/profile/{user}',[ProfileController::class,'update'])->name('profile.update');
 });
+//投稿のCRUDとコメント
 Route::group(['prefix' => 'post','middleware' => 'verified'],function(){
     Route::get('create',[PostController::class,'create'])->name('post.create');
     Route::post('store',[PostController::class,'store'])->name('post.store');
@@ -68,7 +56,7 @@ Route::group(['prefix' => 'post','middleware' => 'verified'],function(){
     Route::get('/mycomment',[HomeController::class,'mycomment'])->name('home.mycomment');
 });
 
-// 管理者用画面
+//管理者用画面
 Route::middleware(['can:admin'])->group(function(){
     Route::group(['prefix' => 'profile'],function(){
         Route::get('/index',[ProfileController::class,'index'])->name('profile.index');
