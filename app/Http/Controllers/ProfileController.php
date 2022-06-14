@@ -56,7 +56,10 @@ class ProfileController extends Controller
 
     public function delete(User $user)
     {
-        Storage::delete('public/avatar/'.$user->avatar);
+        $user->roles()->detach();
+        if ($user->avatar !== 'user_default.jpg'){
+            Storage::delete('public/avatar/'.$user->avatar);
+        }
         $user->delete();
         return back()->with([
             'deleted_success' => '削除が成功したよっっ！///'
