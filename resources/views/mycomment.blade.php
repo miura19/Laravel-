@@ -1,7 +1,16 @@
 @extends('layouts.app')
 @section('content')
-{{ $user->name }}さん、こんにちは！！
-@foreach ($posts as $post)
+<div class="ml-2 mb-3">
+    あなたの投稿
+</div>
+@if(count($comments) === 0)
+    <p>あなたはまだコメントしていません。</p>
+@else
+@foreach ($comments->unique('post_id') as $comment)
+
+@php
+    $post = $comment->post;    
+@endphp
 <div class="container-fluid mt-20" style="margin-left:-10px;">
     <div class="row">
         <div class="col-md-12">
@@ -44,4 +53,5 @@
     </div>
 </div>
 @endforeach
+@endif
 @endsection

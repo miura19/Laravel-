@@ -1,6 +1,11 @@
 @extends('layouts.app')
 @section('content')
-{{ $user->name }}さん、こんにちは！！
+<div class="ml-2 mb-3">
+    あなたの投稿
+</div>
+@if(count($posts) === 0)
+    <p>あなたはまだ投稿していません。</p>
+@else
 @foreach ($posts as $post)
 <div class="container-fluid mt-20" style="margin-left:-10px;">
     <div class="row">
@@ -44,4 +49,5 @@
     </div>
 </div>
 @endforeach
+@endif
 @endsection
